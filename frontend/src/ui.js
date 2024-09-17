@@ -40,6 +40,7 @@ const selector = (state) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  onNodesDelete: state.deleteNode
 });
 
 export const PipelineUI = () => {
