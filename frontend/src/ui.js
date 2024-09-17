@@ -40,7 +40,7 @@ const selector = (state) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
-  onNodesDelete: state.deleteNode
+  deleteNode: state.deleteNode
 });
 
 export const PipelineUI = () => {
@@ -109,7 +109,7 @@ export const PipelineUI = () => {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-                onNodesDelete={deleteNode}
+                deleteNode={deleteNode}
                 onDrop={onDrop}
                 onDragOver={onDragOver}
                 onInit={setReactFlowInstance}

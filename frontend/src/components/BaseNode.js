@@ -3,7 +3,7 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useStore } from "reactflow";
 export const BaseNode = ({children,id, data}) => {
     const { label, content, handles, onDelete } = data;
-    const deleteNode = useStore((state) => {console.log(state); return state.onNodesDelete});
+    const deleteNode = useStore((state) => {console.log(state); return state.deleteNode});
 
     return (
         <div className="max-w-[300px] h-[auto] p-2 border-2 rounded-lg">
