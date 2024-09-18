@@ -1,7 +1,7 @@
 // textNode.js
 
 import { useEffect, useRef, useState } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Position, useUpdateNodeInternals } from 'reactflow';
 import { BaseNode } from '../components/BaseNode';
 import { Input } from '../components/Input';
 
@@ -10,6 +10,7 @@ export const TextNode = ({ id, data }) => {
 	const [variables, setVariables] = useState([]);
 	const [textareaHeight, setTextareaHeight] = useState('auto'); // Default height
 	const textAreaRef = useRef(null)
+	const updateNodeInternals = useUpdateNodeInternals();
 
 	const maxHeight = 100; // Maximum height of the textarea
 	// Regex to find variables within double curly braces, variables are surrounded by {{ }} and contain only letters, numbers, and underscores
@@ -46,6 +47,10 @@ export const TextNode = ({ id, data }) => {
 		adjustTextareaHeight();
 	}, [currText]);
 
+	useEffect(() => {
+		// update reactflow node internals
+		updateNodeInternals(id)
+	}, [variables])
 	const handleTextChange = (e) => {
 		setCurrText(e.target.value);
 	};
