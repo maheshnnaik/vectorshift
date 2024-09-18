@@ -1,32 +1,40 @@
 // submit.js
 import { useState } from 'react';
+import { useStore } from './store';
+import { Alert } from './components/Alert';
 
-export const SubmitButton = ({ nodes, edges }) => {
+export const SubmitButton = () => {
 	const [response, setResponse] = useState(null);
+	const [showAlert, setShowAlert] = useState(false);
 
+    const store = useStore();
+
+	const hideAlert = () => {
+		setShowAlert(false);
+	}
 	const handleSubmit = async () => {
 		// Prepare the data to be sent
 		const pipelineData = {
-			nodes: nodes,  // Assume nodes is passed from parent as props
-			edges: edges   // Assume edges is passed from parent as props
+			nodes: store.nodes,
+			edges: store.edges
 		};
 
-		console.log(pipelineData)
-		// try {
-		// 	// Send the nodes and edges to the backend
-		// 	const res = await fetch('http://localhost:8000/pipelines/parse', {
-		// 		method: 'POST',
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 		},
-		// 		body: JSON.stringify(pipelineData),
-		// 	});
+		try {
+			// Send the nodes and edges to the backend
+			const res = await fetch('http://localhost:8000/pipelines/parse', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(pipelineData),
+			});
 
-		// 	const result = await res.json();
-		// 	setResponse(result);
-		// } catch (error) {
-		// 	console.error('Error:', error);
-		// }
+			const result = await res.json();
+			setResponse(result);
+			setShowAlert(true);
+		} catch (error) {
+			console.error('Error:', error);
+		}
 	};
 	return (
 		<div className="flex items-center justify-center">
@@ -36,13 +44,11 @@ export const SubmitButton = ({ nodes, edges }) => {
 			>Submit</button>
 
 			{/* Display the response if available */}
-			{response && (
-				<div className="mt-4">
-					<p>Number of Nodes: {response.num_nodes}</p>
-					<p>Number of Edges: {response.num_edges}</p>
-					<p>Is DAG: {response.is_dag ? 'Yes' : 'No'}</p>
-				</div>
-			)}
+			{
+				response && showAlert && (
+					<Alert position="bottom-left" data={response} hideAlert={hideAlert}/>
+				)
+			}
 		</div>
 
 		
